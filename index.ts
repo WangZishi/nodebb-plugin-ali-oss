@@ -60,6 +60,12 @@ class OSSPlugin {
         if (!settings.secretAccessKey) { throw new Error(`Can not find OSS_SECRET_ACCESS_KEY in ENV`); }
 
         this.settings = settings as any;
+        this.client = new OSS.Wrapper({
+            accessKeyId: this.settings.accessKeyId,
+            accessKeySecret: this.settings.secretAccessKey,
+            bucket: this.settings.bucket,
+            region: this.settings.region,
+        });
     }
 
     public async activate() {
