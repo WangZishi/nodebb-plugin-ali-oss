@@ -135,5 +135,10 @@ class OSSPlugin {
     }
 
 }
-
-module.exports = new OSSPlugin();
+const plugin = new OSSPlugin();
+module.exports = {
+    activate: plugin.activate,
+    deactivate: plugin.deactivate,
+    uploadFile: plugin.uploadFile,
+    uploadImage: plugin.uploadImage,
+};
