@@ -96,6 +96,8 @@ class OSSPlugin {
             const type = data.image.url ? 'url' : 'file';
             if (type === 'file') {
                 // tslint:disable-next-line:no-console
+                console.log(1, this);
+                // tslint:disable-next-line:no-console
                 console.log(1, this.uploadToOss);
                 return await this.uploadToOss(data.image.name, data.image.path);
             }
