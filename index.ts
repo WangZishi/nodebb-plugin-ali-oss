@@ -86,7 +86,8 @@ class OSSPlugin {
                 winston.error('error:file-too-big, ' + meta.config.maximumFileSize);
                 throw new Error(`[[error:file-too-big, ${meta.config.maximumFileSize}]]`);
             }
-
+            // tslint:disable-next-line:no-console
+            console.log(1, this.uploadToOss);
             return await this.uploadToOss(data.file.name, data.file.path);
 
         } catch (error) {
@@ -105,6 +106,8 @@ class OSSPlugin {
             const type = data.image.url ? 'url' : 'file';
 
             if (type === 'file') {
+                // tslint:disable-next-line:no-console
+                console.log(1, this.uploadToOss);
                 return await this.uploadToOss(data.image.name, data.image.path);
             } else {
                 throw new Error('not implement');
