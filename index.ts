@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as mime from 'mime';
+import * as path from 'path';
 import { callbackify, promisify } from 'util';
 import { v4 } from 'uuid';
 
@@ -127,7 +127,8 @@ class OSSPlugin {
             `${this.settings.path}/`;
 
         const ossKeyPath = ossPath.replace(/^\//, '');
-        const objKey = `${ossKeyPath}${v4()}.${mime.getExtension(mime.getType(filename) as string)}`;
+        
+        const objKey = `${ossKeyPath}${v4()}.${path.parse(filename).ext}`;
 
         const result = await this.client.put(objKey, tempFilepath);
 
