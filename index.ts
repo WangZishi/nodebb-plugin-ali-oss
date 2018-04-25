@@ -47,10 +47,6 @@ const settings = {
 };
 
 class OSSPlugin {
-    public activate = callbackify(this.activateInternal);
-    public deactivate = callbackify(this.deactivateInternal);
-    public uploadFile = callbackify(this.uploadFileInternal);
-    public uploadImage = callbackify(this.uploadImageInternal);
 
     private client: any;
     private settings: Exist<typeof settings>;
@@ -66,7 +62,7 @@ class OSSPlugin {
         this.settings = settings as any;
     }
 
-    private async activateInternal() {
+    public async activate() {
         this.client = new OSS.Wrapper({
             accessKeyId: this.settings.accessKeyId,
             accessKeySecret: this.settings.secretAccessKey,
@@ -75,11 +71,11 @@ class OSSPlugin {
         });
     }
 
-    private async deactivateInternal() {
+    public async deactivate() {
         this.client = null;
     }
 
-    private async uploadFileInternal(data: Data<{ file: IFile }>) {
+    public async uploadFile(data: Data<{ file: IFile }>) {
         try {
 
             if (data.file.size > parseInt(meta.config.maximumFileSize, 10) * 1024) {
@@ -95,7 +91,7 @@ class OSSPlugin {
         }
     }
 
-    private async uploadImageInternal(data: Data<{ image: IImage }>) {
+    public async uploadImage(data: Data<{ image: IImage }>) {
         try {
 
             if (data.image.size > parseInt(meta.config.maximumFileSize, 10) * 1024) {
@@ -127,7 +123,7 @@ class OSSPlugin {
             `${this.settings.path}/`;
 
         const ossKeyPath = ossPath.replace(/^\//, '');
-        
+
         const objKey = `${ossKeyPath}${v4()}.${path.parse(filename).ext}`;
 
         const result = await this.client.put(objKey, tempFilepath);
@@ -137,9 +133,10 @@ class OSSPlugin {
 
 }
 const plugin = new OSSPlugin();
+
 module.exports = {
-    activate: plugin.activate,
-    deactivate: plugin.deactivate,
-    uploadFile: plugin.uploadFile,
-    uploadImage: plugin.uploadImage,
+    activate: callbackify(plugin.activate).bind(plugin),
+    deactivate: callbackify(plugin.deactivate).bind(plugin),
+    uploadFile: callbackify(plugin.uploadFile).bind(plugin),
+    uploadImage: callbackify(plugin.uploadImage).bind(plugin),
 };
