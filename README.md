@@ -1,6 +1,6 @@
 # NodeBB Aliyun OSS Plugin
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fziofat%2Fnodebb-plugin-ali-oss.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fziofat%2Fnodebb-plugin-ali-oss?ref=badge_shield)
 
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fziofat%2Fnodebb-plugin-ali-oss.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fziofat%2Fnodebb-plugin-ali-oss?ref=badge_shield)
 
 This plugin is a fork of [nodebb-plugin-s3-uploads](https://github.com/LouiseMcMahon/nodebb-plugin-s3-uploads).
 
@@ -8,9 +8,9 @@ This plugin is a fork of [nodebb-plugin-s3-uploads](https://github.com/LouiseMcM
 
 | Plugin Version | Dependency     | Version Requirement     |
 | ---------------| -------------- |:-----------------------:|
-| 0.1.1          | NodeBB         | >= 1.0.0 |
+| 0.2.0          | NodeBB         | >= 1.0.0                |
 
-A plugin for NodeBB to take file uploads and store them on S3, uses the `filter:uploadImage` hook in NodeBB. 
+A plugin for NodeBB to take file uploads and store them on S3, uses the `filter:uploadImage` hook in NodeBB.
 
 ## Aliyun OSS Configuration
 
@@ -25,7 +25,7 @@ For instance, for [talk.kano.me](http://talk.kano.me), we store the Bucket name 
 
 ### Environment Variables
 
-```
+```shell
 export OSS_ACCESS_KEY_ID="myaliyunkey"
 export OSS_SECRET_ACCESS_KEY="myaliyunsecret"
 export OSS_DEFAULT_REGION="oss-cn-hangzhou"
@@ -42,8 +42,8 @@ export OSS_UPLOADS_PATH="path"
 From the NodeBB Admin panel, you can configure the following settings to be stored in the Database:
 
 * `bucket` — The S3 bucket to upload into
-* `host` - The base URL for the asset.  **Typcially http://\<bucket\>.\<endpoint\>.aliyuncs.com**
-* `Region` - The endpoint of the OSS. **like oss-cn-hangzhou**
+* `host` - The base URL for the asset.  **Typcially** `http://\<bucket\>.\<endpoint\>.aliyuncs.com`
+* `Region` - The endpoint of the OSS. **Like** `oss-cn-hangzhou`
 * `path` - The asset path (optional)
 * `accessKeyId` — The OSS Access Key Id
 * `secretAccessKey` — The OSS Secret Access Key
@@ -51,8 +51,9 @@ From the NodeBB Admin panel, you can configure the following settings to be stor
 **NOTE: Storing your OSS Credentials in the database is bad practice, and you really shouldn't do it.**
 
 ## Contributing
+
 Feel free to fork and pull request.
 
-
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fziofat%2Fnodebb-plugin-ali-oss.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fziofat%2Fnodebb-plugin-ali-oss?ref=badge_large)

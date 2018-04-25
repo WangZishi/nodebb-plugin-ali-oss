@@ -1,14 +1,14 @@
 {
-  "name": "nodebb-plugin-ali-oss",
-  "version": "0.1.2",
-  "description": "A plugin for NodeBB to take file uploads and store them on OSS for nodebb 1.0",
+  "name": "nodebb-plugin-alioss",
+  "version": "0.2.0",
+  "description": "A plugin for NodeBB to take file uploads and store them on OSS for nodebb 1.8+",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ziofat/nodebb-plugin-ali-oss.git"
+    "url": "https://github.com/WangZishi/nodebb-plugin-alioss.git"
   },
   "keywords": [
     "nodebb",
@@ -17,19 +17,29 @@
     "plugin",
     "uploads"
   ],
-  "author": "ziofat",
+  "author": {
+    "name": "WangZishi",
+    "email": "ynh.2@outlook.com"
+  },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ziofat/nodebb-plugin-ali-oss/issues"
+    "url": "https://github.com/WangZishi/nodebb-plugin-alioss/issues"
   },
   "nbbpm": {
-    "compatibility": "^1.0.0"
+    "compatibility": "^1.8.0"
   },
   "dependencies": {
-    "ali-oss": "^4.4.4",
-    "uuid": "~1.4.1",
-    "mime": "~1.2.11",
-    "request": "~2.69.0",
-    "gm": "~1.21.1"
+    "ali-oss": "^5.1.1",
+    "uuid": "~3.2.1",
+    "mime": "~2.3.1",
+    "request": "~2.85.0",
+    "gm": "~1.23.1"
+  },
+  "devDependencies": {
+    "@types/gm": "^1.17.33",
+    "@types/mime": "^2.0.0",
+    "@types/node": "^9.6.6",
+    "@types/request": "^2.47.0",
+    "@types/uuid": "^3.4.3"
   }
 }

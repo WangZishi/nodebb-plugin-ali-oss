@@ -1,8 +1,8 @@
 {
-    "id": "nodebb-plugin-ali-oss",
+    "id": "nodebb-plugin-alioss",
     "name": "Aliyun OSS Plugin",
-    "description": "A plugin for NodeBB to take file uploads and store them on OSS for nodebb 1.0",
-    "url": "https://github.com/ziofat/nodebb-plugin-ali-oss",
+    "description": "A plugin for NodeBB to take file uploads and store them on OSS for nodebb 1.8+",
+    "url": "https://github.com/WangZishi/nodebb-plugin-alioss",
     "library": "./index.js",
     "staticDirs": {
         "oss": "public"
