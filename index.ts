@@ -130,7 +130,7 @@ class OSSPlugin {
 
         const ossKeyPath = ossPath.replace(/^\//, '');
 
-        const objKey = `${ossKeyPath}${v4()}.${path.parse(filename).ext}`;
+        const objKey = `${ossKeyPath}${v4()}${path.parse(filename).ext}`;
 
         const result = await this.client.put(objKey, tempFilepath);
 
