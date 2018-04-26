@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { URL } from 'url';
 import { callbackify, promisify } from 'util';
 import { v4 } from 'uuid';
 
@@ -55,6 +56,7 @@ class OSSPlugin {
 
         if (!settings.accessKeyId) { throw new Error(`Can not find OSS_ACCESS_KEY_ID in ENV`); }
         if (!settings.bucket) { throw new Error(`Can not find OSS_UPLOADS_BUCKET in ENV`); }
+        if (!settings.host) { throw new Error(`Can not find OSS_UPLOADS_HOST in ENV`); }
         if (!settings.path) { throw new Error(`Can not find OSS_UPLOADS_PATH in ENV`); }
         if (!settings.region) { throw new Error(`Can not find OSS_DEFAULT_REGION in ENV`); }
         if (!settings.secretAccessKey) { throw new Error(`Can not find OSS_SECRET_ACCESS_KEY in ENV`); }
@@ -108,10 +110,6 @@ class OSSPlugin {
             const type = data.image.url ? 'url' : 'file';
 
             if (type === 'file') {
-                // tslint:disable-next-line:no-console
-                console.log(1, this);
-                // tslint:disable-next-line:no-console
-                console.log(1, this.uploadToOss);
                 return await this.uploadToOss(data.image.name, data.image.path);
             } else {
                 throw new Error('not implement');
@@ -133,8 +131,12 @@ class OSSPlugin {
         const objKey = `${ossKeyPath}${v4()}${path.parse(filename).ext}`;
 
         const result = await this.client.put(objKey, tempFilepath);
+        const ossUrl = new URL(result.url);
+        const hostUrl = new URL(this.settings.host);
 
-        return { name: filename, url: result.url };
+        hostUrl.pathname = ossUrl.pathname;
+
+        return { name: filename, url: hostUrl.href };
     }
 
 }
