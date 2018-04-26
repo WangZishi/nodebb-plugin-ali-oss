@@ -44,6 +44,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = __importStar(require("fs"));
 var path = __importStar(require("path"));
+var url_1 = require("url");
 var util_1 = require("util");
 var uuid_1 = require("uuid");
 // import * as OSS from 'ali-oss';
@@ -81,6 +82,9 @@ var OSSPlugin = /** @class */ (function () {
         }
         if (!settings.bucket) {
             throw new Error("Can not find OSS_UPLOADS_BUCKET in ENV");
+        }
+        if (!settings.host) {
+            throw new Error("Can not find OSS_UPLOADS_HOST in ENV");
         }
         if (!settings.path) {
             throw new Error("Can not find OSS_UPLOADS_PATH in ENV");
@@ -156,10 +160,6 @@ var OSSPlugin = /** @class */ (function () {
                         }
                         type = data.image.url ? 'url' : 'file';
                         if (!(type === 'file')) return [3 /*break*/, 2];
-                        // tslint:disable-next-line:no-console
-                        console.log(1, this);
-                        // tslint:disable-next-line:no-console
-                        console.log(1, this.uploadToOss);
                         return [4 /*yield*/, this.uploadToOss(data.image.name, data.image.path)];
                     case 1: return [2 /*return*/, _a.sent()];
                     case 2: throw new Error('not implement');
@@ -174,7 +174,7 @@ var OSSPlugin = /** @class */ (function () {
     };
     OSSPlugin.prototype.uploadToOss = function (filename, tempFilepath) {
         return __awaiter(this, void 0, void 0, function () {
-            var stats, ossPath, ossKeyPath, objKey, result;
+            var stats, ossPath, ossKeyPath, objKey, result, ossUrl, hostUrl;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, util_1.promisify(fs.stat)(tempFilepath)];
@@ -184,11 +184,14 @@ var OSSPlugin = /** @class */ (function () {
                             this.settings.path :
                             this.settings.path + "/";
                         ossKeyPath = ossPath.replace(/^\//, '');
-                        objKey = "" + ossKeyPath + uuid_1.v4() + "." + path.parse(filename).ext;
+                        objKey = "" + ossKeyPath + uuid_1.v4() + path.parse(filename).ext;
                         return [4 /*yield*/, this.client.put(objKey, tempFilepath)];
                     case 2:
                         result = _a.sent();
-                        return [2 /*return*/, { name: filename, url: result.url }];
+                        ossUrl = new url_1.URL(result.url);
+                        hostUrl = new url_1.URL(this.settings.host);
+                        hostUrl.pathname = ossUrl.pathname;
+                        return [2 /*return*/, { name: filename, url: hostUrl.href }];
                 }
             });
         });
