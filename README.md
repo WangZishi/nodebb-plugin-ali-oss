@@ -8,7 +8,7 @@ This plugin is a fork of [nodebb-plugin-s3-uploads](https://github.com/LouiseMcM
 
 | Plugin Version | Dependency     | Version Requirement     |
 | ---------------| -------------- |:-----------------------:|
-| 0.2.0          | NodeBB         | >= 1.0.0                |
+| 0.2.0          | NodeBB         | >= 1.8.0                |
 
 A plugin for NodeBB to take file uploads and store them on S3, uses the `filter:uploadImage` hook in NodeBB.
 
@@ -42,7 +42,7 @@ export OSS_UPLOADS_PATH="path"
 From the NodeBB Admin panel, you can configure the following settings to be stored in the Database:
 
 * `bucket` — The S3 bucket to upload into
-* `host` - The base URL for the asset.  **Typcially** `http://\<bucket\>.\<endpoint\>.aliyuncs.com`
+* `host` - The base URL for the asset.  **Typcially** `http://<bucket>.<endpoint>.aliyuncs.com`
 * `Region` - The endpoint of the OSS. **Like** `oss-cn-hangzhou`
 * `path` - The asset path (optional)
 * `accessKeyId` — The OSS Access Key Id
