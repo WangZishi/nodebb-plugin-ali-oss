@@ -1,9 +1,10 @@
 import * as fs from 'fs';
+// tslint:disable-next-line:no-implicit-dependencies
+import * as n from 'nconf';
 import * as path from 'path';
 import { URL } from 'url';
 import { callbackify, promisify } from 'util';
 import { v4 } from 'uuid';
-
 // import * as OSS from 'ali-oss';
 // tslint:disable-next-line:no-var-requires
 const OSS = require('ali-oss');
@@ -14,6 +15,7 @@ if (!module.parent) { throw new Error('Does not use as plugin'); }
 
 const winston = module.parent.require('winston');
 const meta = module.parent.require('./meta');
+const nconf: typeof n = module.parent.require('nconf');
 // const im = gm.subClass({ imageMagick: true });
 
 function makeError(err: string | Error) {
@@ -22,7 +24,7 @@ function makeError(err: string | Error) {
     } else {
         err = new Error(`${Package.name} :: ${err}`);
     }
-
+    // =>
     winston.error(err.message);
     return err;
 }
@@ -39,12 +41,12 @@ type Data<T> = T & { uid: string };
 type Exist<T> = { [K in keyof T]: NonNullable<T[K]> };
 
 const settings = {
-    accessKeyId: process.env.OSS_ACCESS_KEY_ID,
-    bucket: process.env.OSS_UPLOADS_BUCKET,
-    host: process.env.OSS_UPLOADS_HOST,
-    path: process.env.OSS_UPLOADS_PATH,
-    region: process.env.OSS_DEFAULT_REGION,
-    secretAccessKey: process.env.OSS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.OSS_ACCESS_KEY_ID || nconf.get('alioss:accessKeyId'),
+    bucket: process.env.OSS_UPLOADS_BUCKET || nconf.get('alioss:bucket'),
+    host: process.env.OSS_UPLOADS_HOST || nconf.get('alioss:host'),
+    path: process.env.OSS_UPLOADS_PATH || nconf.get('alioss:path'),
+    region: process.env.OSS_DEFAULT_REGION || nconf.get('alioss:region'),
+    secretAccessKey: process.env.OSS_SECRET_ACCESS_KEY || nconf.get('alioss:accessKeySecret'),
 };
 
 class OSSPlugin {

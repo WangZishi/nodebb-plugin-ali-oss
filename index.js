@@ -56,6 +56,7 @@ if (!module.parent) {
 }
 var winston = module.parent.require('winston');
 var meta = module.parent.require('./meta');
+var nconf = module.parent.require('nconf');
 // const im = gm.subClass({ imageMagick: true });
 function makeError(err) {
     if (err instanceof Error) {
@@ -64,16 +65,17 @@ function makeError(err) {
     else {
         err = new Error(Package.name + " :: " + err);
     }
+    // =>
     winston.error(err.message);
     return err;
 }
 var settings = {
-    accessKeyId: process.env.OSS_ACCESS_KEY_ID,
-    bucket: process.env.OSS_UPLOADS_BUCKET,
-    host: process.env.OSS_UPLOADS_HOST,
-    path: process.env.OSS_UPLOADS_PATH,
-    region: process.env.OSS_DEFAULT_REGION,
-    secretAccessKey: process.env.OSS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.OSS_ACCESS_KEY_ID || nconf.get('alioss:accessKeyId'),
+    bucket: process.env.OSS_UPLOADS_BUCKET || nconf.get('alioss:bucket'),
+    host: process.env.OSS_UPLOADS_HOST || nconf.get('alioss:host'),
+    path: process.env.OSS_UPLOADS_PATH || nconf.get('alioss:path'),
+    region: process.env.OSS_DEFAULT_REGION || nconf.get('alioss:region'),
+    secretAccessKey: process.env.OSS_SECRET_ACCESS_KEY || nconf.get('alioss:accessKeySecret'),
 };
 var OSSPlugin = /** @class */ (function () {
     function OSSPlugin() {
