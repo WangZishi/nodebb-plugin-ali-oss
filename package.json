@@ -1,7 +1,7 @@
 {
   "name": "nodebb-plugin-alioss-uploads",
-  "version": "0.2.0",
-  "description": "A plugin for NodeBB to take file uploads and store them on OSS for nodebb 1.8+",
+  "version": "0.3.0",
+  "description": "A plugin for NodeBB to take file uploads and store them on OSS for nodebb 1.12+",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,15 +26,17 @@
     "url": "https://github.com/WangZishi/nodebb-plugin-alioss/issues"
   },
   "nbbpm": {
-    "compatibility": "^1.8.0"
+    "compatibility": "^1.12.0"
   },
   "dependencies": {
-    "ali-oss": "^5.1.1",
-    "uuid": "~3.2.1"
+    "ali-oss": "^6.1.1",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
-    "@types/nconf": "0.0.37",
-    "@types/node": "^9.6.6",
-    "@types/uuid": "^3.4.3"
+    "@types/ali-oss": "^6.0.4",
+    "@types/nconf": "0.10.0",
+    "@types/node": "^10.0.0",
+    "@types/uuid": "^3.4.5",
+    "tslint": "^5.20.0"
   }
 }
