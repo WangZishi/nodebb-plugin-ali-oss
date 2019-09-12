@@ -14,8 +14,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -34,6 +34,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -42,6 +45,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var ali_oss_1 = __importDefault(require("ali-oss"));
 var fs = __importStar(require("fs"));
 var path = __importStar(require("path"));
 var url_1 = require("url");
@@ -49,7 +53,7 @@ var util_1 = require("util");
 var uuid_1 = require("uuid");
 // import * as OSS from 'ali-oss';
 // tslint:disable-next-line:no-var-requires
-var OSS = require('ali-oss');
+// const OSS = require('ali-oss');
 var Package = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
 if (!module.parent) {
     throw new Error('Does not use as plugin');
@@ -98,7 +102,7 @@ var OSSPlugin = /** @class */ (function () {
             throw new Error("Can not find OSS_SECRET_ACCESS_KEY in ENV");
         }
         this.settings = settings;
-        this.client = new OSS.Wrapper({
+        this.client = new ali_oss_1.default({
             accessKeyId: this.settings.accessKeyId,
             accessKeySecret: this.settings.secretAccessKey,
             bucket: this.settings.bucket,
@@ -108,7 +112,7 @@ var OSSPlugin = /** @class */ (function () {
     OSSPlugin.prototype.activate = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.client = new OSS.Wrapper({
+                this.client = new ali_oss_1.default({
                     accessKeyId: this.settings.accessKeyId,
                     accessKeySecret: this.settings.secretAccessKey,
                     bucket: this.settings.bucket,
@@ -121,8 +125,7 @@ var OSSPlugin = /** @class */ (function () {
     OSSPlugin.prototype.deactivate = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.client = null;
-                return [2 /*return*/];
+                return [2 /*return*/, void 0];
             });
         });
     };
@@ -132,7 +135,11 @@ var OSSPlugin = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        // tslint:disable-next-line: no-console
+                        console.log('file', { data: data });
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
                         if (data.file.size > parseInt(meta.config.maximumFileSize, 10) * 1024) {
                             winston.error('error:file-too-big, ' + meta.config.maximumFileSize);
                             throw new Error("[[error:file-too-big, " + meta.config.maximumFileSize + "]]");
@@ -140,11 +147,11 @@ var OSSPlugin = /** @class */ (function () {
                         // tslint:disable-next-line:no-console
                         console.log(1, this.uploadToOss);
                         return [4 /*yield*/, this.uploadToOss(data.file.name, data.file.path)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                    case 2:
+                    case 2: return [2 /*return*/, _a.sent()];
+                    case 3:
                         error_1 = _a.sent();
                         throw makeError(error_1);
-                    case 3: return [2 /*return*/];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -155,41 +162,43 @@ var OSSPlugin = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 4, , 5]);
+                        // tslint:disable-next-line: no-console
+                        console.log('image', { data: data });
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 5, , 6]);
                         if (data.image.size > parseInt(meta.config.maximumFileSize, 10) * 1024) {
                             winston.error('error:file-too-big, ' + meta.config.maximumFileSize);
                             throw new Error("[[error:file-too-big, " + meta.config.maximumFileSize + "]]");
                         }
                         type = data.image.url ? 'url' : 'file';
-                        if (!(type === 'file')) return [3 /*break*/, 2];
+                        if (!(type === 'file')) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.uploadToOss(data.image.name, data.image.path)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                    case 2: throw new Error('not implement');
-                    case 3: return [3 /*break*/, 5];
-                    case 4:
+                    case 2: return [2 /*return*/, _a.sent()];
+                    case 3: throw new Error('not implement');
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
                         error_2 = _a.sent();
                         throw makeError(error_2);
-                    case 5: return [2 /*return*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
     };
-    OSSPlugin.prototype.uploadToOss = function (filename, tempFilepath) {
+    OSSPlugin.prototype.uploadToOss = function (filename, temp) {
         return __awaiter(this, void 0, void 0, function () {
             var stats, ossPath, ossKeyPath, objKey, result, ossUrl, hostUrl;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, util_1.promisify(fs.stat)(tempFilepath)];
+                    case 0: return [4 /*yield*/, util_1.promisify(fs.stat)(temp)];
                     case 1:
                         stats = _a.sent();
-                        ossPath = /\/$/.test(this.settings.path) ?
-                            this.settings.path :
-                            this.settings.path + "/";
+                        ossPath = /\/$/.test(this.settings.path) ? this.settings.path : this.settings.path + "/";
                         ossKeyPath = ossPath.replace(/^\//, '');
                         objKey = "" + ossKeyPath + uuid_1.v4() + path.parse(filename).ext;
-                        return [4 /*yield*/, this.client.put(objKey, tempFilepath)];
+                        return [4 /*yield*/, this.client.put(objKey, temp)];
                     case 2:
-                        result = _a.sent();
+                        result = (_a.sent());
                         ossUrl = new url_1.URL(result.url);
                         hostUrl = new url_1.URL(this.settings.host);
                         hostUrl.pathname = ossUrl.pathname;
